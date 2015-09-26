@@ -311,6 +311,13 @@
     {
         return _searchFetchedResultsController;
     }
+    
+    // If the search is nil or empty we should just use the default FRC
+    // Otherwise we'll end up doing two identical fetches.
+    if (!self.searchController.searchBar.text || [self.searchController.searchBar.text isEqualToString:@""]) {
+        return [self fetchedResultsController];
+    }
+    
     _searchFetchedResultsController = [self newFetchedResultsControllerWithSearch:self.searchController.searchBar.text];
     return _searchFetchedResultsController;
 }
